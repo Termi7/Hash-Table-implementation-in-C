@@ -29,6 +29,9 @@
     "**/.vscode/**"
   ],
   "files.associations": {
-    "hashtable.h": "c"
+    "hashtable.h": "c",
+    "__functional_03": "c",
+    "functional": "c",
+    "typeinfo": "c"
   }
 }

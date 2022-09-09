@@ -11,6 +11,19 @@
       "cwd": "/Users/aboubacarabdoulaye/Downloads/Project 1 Files",
       "program": "/Users/aboubacarabdoulaye/Downloads/Project 1 Files/build/Debug/outDebug",
       "MIMode": "gdb"
+    },
+    {
+      "name": "C/C++: clang build and debug active file",
+      "type": "cppdbg",
+      "request": "launch",
+      "program": "${fileDirname}/${fileBasenameNoExtension}",
+      "args": [],
+      "stopAtEntry": false,
+      "cwd": "${fileDirname}",
+      "environment": [],
+      "externalConsole": false,
+      "MIMode": "lldb",
+      "preLaunchTask": "C/C++: clang build active file"
     }
   ]
 }

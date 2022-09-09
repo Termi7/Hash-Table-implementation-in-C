@@ -1,4 +1,5 @@
 #pragma once // Prevents the header file from loading multiple times
+#include "headers.h"
 
 // Constants for the Student Structure
 #define EMAIL_SIZE 18
@@ -11,13 +12,6 @@
 #define NEW_LINE 10 // Newline character code
 #define TABLE_SIZE 35 // Number of available spaces
 
-int computerHash(char* studentName);
-void displayHashTable(struct student* hashTable[]);
-void displayRecord(struct student* temp, int index);
-void initializeTable(struct student* hashTable[]);
-void insertStudent(struct student* hashTable[], struct student* temp);
-bool testEmailFormat(struct student temp);
-bool testStudentData(struct student temp);
 
 struct student
 {
@@ -27,6 +21,15 @@ struct student
 	int credits;
 	double gpa;
 };
+int computerHash(char* studentName);
+void displayHashTable(struct student* hashTable[]);
+void displayRecord(struct student* temp, int index);
+void initializeTable(struct student* hashTable[]);
+void insertStudent(struct student* hashTable[], struct student* temp);
+bool testEmailFormat(struct student temp);
+// bool testStudentData(struct student temp);
+
+
 
 int computerHash(char* input)
 {
@@ -43,9 +46,20 @@ int computerHash(char* input)
 
 void displayHashTable(struct student* hashTable[])
 {
+	int i = 0;
 	printf("Hash Table Log\n");
-	printf("--------------\n");
-	// printf("Added Student to Hash Table: %s        Target: %d, Actual: %d", hashTable[].name, target, actual)
+				 printf("--------------\n");
+   for(i = 0; i<TABLE_SIZE; i++) {
+		if(hashTable[i] != NULL){
+     
+        //  printf(" (%d,%d)",hashArray[i]->key,hashArray[i]->data);
+				 
+				 printf("Added Student to Hash Table: %-20s        Target: %-2d, Actual: %-2d\n", hashTable[i]->name, computerHash(hashTable[i]->name), i);
+	
+      // else
+      //    printf(" ~~ ");
+   }
+	 }
 	
 }
 
@@ -53,10 +67,10 @@ void displayRecord(struct student* temp, int index)
 {
 	printf("Hash Table Contents\n");
 	printf("-----------------\n");
-	printf(' ');
+	printf("%s", " ");
 	printf("Index  Name                  Number     Email Address      Credits  GPA");
 	printf("-----  --------------------  ---------  -----------------  -------  ---");
-  printf("%d  %s          %s  %s       %d  %d", index, temp->name, temp->number, temp->email, temp->credits, temp->gpa);
+  printf("%d  %s          %s  %s       %d  %f", index, temp->name, temp->number, temp->email, temp->credits, temp->gpa);
 	
 }
 
@@ -64,11 +78,16 @@ void initializeTable(struct student* hashTable[])
 {
 	
 	 for(int i=0;i<TABLE_SIZE; i++){
-        strcpy(hashTable[i]->name, NULL);
-				strcpy(hashTable[i]->email, NULL);
-				strcpy(hashTable[i]->credits, NULL);
-				hashTable[i]->credits = 0;
-				hashTable[i]->gpa = 0.0;
+        hashTable[i] =NULL;
+				// strcpy(hashTable[i].number, NULL);
+				// strcpy(hashTable[i].email, NULL);
+				
+
+				// // hashTable[i].name = 0;
+				// // hashTable[i].number = 0;
+				// // hashTable[i].email= 0;
+				// hashTable[i].credits = 0;
+				// hashTable[i].gpa = 0.0;
 				// hashTable[i]->next = NULL;
     }
 }
@@ -85,7 +104,7 @@ void insertStudent(struct student* hashTable[], struct student* temp)
 
 	
 
-	struct student *ptrMemory = (struct student*)malloc(TABLE_SIZE * sizeof(struct student));
+	struct student *ptrMemory = malloc (sizeof(struct student));
 
 		strcpy(ptrMemory->name, temp->name);
 		strcpy(ptrMemory->name, temp->name);
@@ -95,16 +114,29 @@ void insertStudent(struct student* hashTable[], struct student* temp)
 
 		int target=key;
 		
-		if(hashTable[key]!= NULL){
-			while(strcmp (hashTable[key]->name, temp->name)==0){
+		// while(hashTable[key]!= NULL && strcmp (hashTable[key]->name, ptrMemory->name)==0){
+		// 	// while(strcmp (hashTable[key].name, temp->name)==0){
+				
+		// 		key = key +1;
+				
+
+    //      key %=TABLE_SIZE;
+		// 	}
+		while(hashTable[key]!= NULL){
+					if(strcmp (hashTable[key]->name, ptrMemory->name)==0){
+			// while(strcmp (hashTable[key].name, temp->name)==0){
+					}
 				
 				key = key +1;
 				
 
-
-			}
+         key %=TABLE_SIZE;
+			
+		}
 			int actual = key;
-			hashTable[key] =ptrMemory;
+			hashTable[key]= ptrMemory;
+
+			
 
 
 		}
@@ -114,10 +146,11 @@ void insertStudent(struct student* hashTable[], struct student* temp)
     // newNode->next = NULL;
 	
 
-}
+
 
 bool testEmailFormat(struct student temp)
 {
+	return true;
 
 
 
@@ -159,6 +192,9 @@ bool testStudentData(struct student temp)
 	}else{
 		return false;
 	}
+
+
+	return false;
 
 	
 }

@@ -5,5 +5,6 @@
 
 // void performSearch(struct student* array[], char* type, char* string)
 // {
-// 	// printf("hello");
+
+// 	
 // }

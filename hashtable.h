@@ -42,7 +42,17 @@ int computerHash(char* input)
 	}
 	return (int)(hashValue%MOD_SIZE*HASH_TABLE_SEGMENTS);
 
-}
+ }
+
+// // computerHash(char* input)
+// int computerHash(char input[])
+// {
+//    int (hashValue = 0;
+//    for (int i = 0; i < input.length(); i++)
+//       hashValue = (3*hashValue + input[i]);
+//    return (int)(hashValue%MOD_SIZE*HASH_TABLE_SEGMENTS);
+// }
+
 
 void displayHashTable(struct student* hashTable[])
 {
@@ -70,7 +80,7 @@ void displayRecord(struct student* temp, int index)
 	printf("%s", " ");
 	printf("Index  Name                  Number     Email Address      Credits  GPA");
 	printf("-----  --------------------  ---------  -----------------  -------  ---");
-  printf("%d  %s          %s  %s       %d  %f", index, temp->name, temp->number, temp->email, temp->credits, temp->gpa);
+  printf("%d  %-20s          %s  %-16s       %d  %f", index, temp->name, temp->number, temp->email, temp->credits, temp->gpa);
 	
 }
 
@@ -79,16 +89,7 @@ void initializeTable(struct student* hashTable[])
 	
 	 for(int i=0;i<TABLE_SIZE; i++){
         hashTable[i] =NULL;
-				// strcpy(hashTable[i].number, NULL);
-				// strcpy(hashTable[i].email, NULL);
 				
-
-				// // hashTable[i].name = 0;
-				// // hashTable[i].number = 0;
-				// // hashTable[i].email= 0;
-				// hashTable[i].credits = 0;
-				// hashTable[i].gpa = 0.0;
-				// hashTable[i]->next = NULL;
     }
 }
 
@@ -125,6 +126,8 @@ void insertStudent(struct student* hashTable[], struct student* temp)
 		while(hashTable[key]!= NULL){
 					if(strcmp (hashTable[key]->name, ptrMemory->name)==0){
 			// while(strcmp (hashTable[key].name, temp->name)==0){
+				   displayError(11,hashTable[key]->name);
+				   break;
 					}
 				
 				key = key +1;
@@ -150,7 +153,16 @@ void insertStudent(struct student* hashTable[], struct student* temp)
 
 bool testEmailFormat(struct student temp)
 {
-	return true;
+  char string[4];
+	char string1[4];
+  if(temp.email[0]=='u'&&temp.email[9]=='@'&& temp.email[13]=='.'){
+		if((strcmp(strncpy(temp.email, string+10, 3 ),"ufb")) && (strcmp(strncpy(temp.email, string1+14, 3 ),"edu"))){
+         return false;
+		}
+   
+	}
+  displayError(8,temp.email);
+	return false;
 
 
 
@@ -158,43 +170,35 @@ bool testEmailFormat(struct student temp)
 
 bool testStudentData(struct student temp)
 {
-	if(strlen(temp.name)>=5 || strlen(temp.name)<=20 ){
+	if(strlen(temp.name)<5 || strlen(temp.name)>20 ){
+			displayError(4,temp.name);
+			return false;
+		
+	}else if(strlen(temp.number)!=9 || temp.number[0]!='u'){
+		displayError(5,temp.number);
+    return false;
 
-		return true;
-	}else{
-		return false;
+
+	}else if(strlen(temp.email)!=17 && (!testEmailFormat(temp))){
+			displayError(7,temp.email);
+      return false;
+
+	}else if(temp.credits<0 ||temp.credits>150 ){
+			// displayError(9,temp.credits);
+			printf("Error: Student Credits Not Less Than 150 (%d)\n", temp.credits);
+			return false;
+
+
+	}else if(temp.gpa<0 || temp.gpa>4.0 ){
+			// displayError(10,(int)temp.gpa);
+			printf("Error: Student Gpa Not Less Than 4.00(%f)\n", temp.gpa);
+			return false;
+
 	}
 
-  if(strlen(temp.number)==9 &&temp.number[0]=='u'){
-		return true;
-	}else{
+			return true;
 
-		return false;
-	}
-
-	if(strlen(temp.email)==17 && testEmailFormat(temp)){
-
-		return true;
-	}else{
-
-		return false;
-	}
-	if(temp.credits>=0 ||temp.credits<=150 ){
-
-		return true;
-	}else{
-		return false;
-	}
-
-	if(temp.gpa>=5 || temp.gpa<=20 ){
-
-		return true;
-	}else{
-		return false;
-	}
-
-
-	return false;
 
 	
-}
+	
+	}

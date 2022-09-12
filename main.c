@@ -220,7 +220,7 @@ if(record[0]== '\r'){
 	
 	return false;
 
-}else if(strlen(record)<35  || strlen(record)>60) {
+}else if(strlen(record)<37  || strlen(record)>60) {
 	// printf("short record");
 	displayError(13,record);
 	return false;

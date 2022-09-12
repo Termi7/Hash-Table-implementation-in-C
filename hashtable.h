@@ -23,7 +23,7 @@ struct student
 };
 int computerHash(char* studentName);
 void displayHashTable(struct student* hashTable[]);
-void displayRecord(struct student* temp, int index);
+void displayRecord(struct student* temp[], int index);
 void initializeTable(struct student* hashTable[]);
 void insertStudent(struct student* hashTable[], struct student* temp);
 bool testEmailFormat(struct student temp);
@@ -73,14 +73,15 @@ void displayHashTable(struct student* hashTable[])
 	
 }
 
-void displayRecord(struct student* temp, int index)
+void displayRecord(struct student* temp[], int index)
 {
-	printf("Hash Table Contents\n");
-	printf("-----------------\n");
-	printf("%s", " ");
-	printf("Index  Name                  Number     Email Address      Credits  GPA");
-	printf("-----  --------------------  ---------  -----------------  -------  ---");
-  printf("%d  %-20s          %s  %-16s       %d  %f", index, temp->name, temp->number, temp->email, temp->credits, temp->gpa);
+	
+	// printf("Hash Table Contents\n");
+	// printf("-----------------\n");
+	// printf("%s", " ");
+	// printf("Index  Name                  Number     Email Address      Credits  GPA");
+	// printf("-----  --------------------  ---------  -----------------  -------  ---");
+  printf("%4d  		%-20s         %-10s  %-5s       %3d    %.2f\n", index, temp[index]->name, temp[index]->number, temp[index]->email, temp[index]->credits, temp[index]->gpa);
 	
 }
 
@@ -108,8 +109,8 @@ void insertStudent(struct student* hashTable[], struct student* temp)
 	struct student *ptrMemory = malloc (sizeof(struct student));
 
 		strcpy(ptrMemory->name, temp->name);
-		strcpy(ptrMemory->name, temp->name);
-		strcpy(ptrMemory->name, temp->name);
+		strcpy(ptrMemory->number, temp->number);
+		strcpy(ptrMemory->email, temp->email);
 		ptrMemory->credits=temp->credits;
 		ptrMemory->gpa=temp->gpa;
 

@@ -67,11 +67,12 @@ void displayError(int error, char* errorInfo)
   
 
   // printf("%d Line Found",blankRecord);
-  printf("Blank Line Found");
+  printf("Error: Blank Line Found\n");
  }else if(error ==13){
       // printf("Error: %d Record (%s)\n",shortRecord, errorInfo);
+    
     printf("Error: Short Record (%s)\n", errorInfo);
-
+    
  }
   
 

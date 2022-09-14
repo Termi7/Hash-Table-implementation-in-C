@@ -20,12 +20,12 @@ int main(int argc, char *argv[])
   //       /*printf("usage: %s filename", argv[0]);*/
   //       /*return 1;*/
   //       printf("no argument\n");
-					// displayError(3, argv[0]);    
+	// 				displayError(0, argv[0]);    
   //       exit(1);
   //   }
     
 
-  //   else{
+    // else{
 
 
 		struct student* hashTable[TABLE_SIZE];
@@ -33,8 +33,8 @@ int main(int argc, char *argv[])
 
 
 		// processInputFile(hashTable, argv[1]);
-		// processInputFile(hashTable, "file_good.txt");
-		processInputFile(hashTable, "file_errors.txt");
+		processInputFile(hashTable, "file_good.txt");
+		// processInputFile(hashTable, "file_errors.txt");
 		
 
 
@@ -52,7 +52,13 @@ int main(int argc, char *argv[])
 		}
 		}
 
-		// processSearchFile(hashTable, "file_search.txt");
+
+	// displayHashTable(hashTable);
+		// processSearchFile(hashTable, argv[2]);
+		printf("Search Results\n");
+		printf("--------------\n");;
+		processSearchFile(hashTable, "file_search.txt");
+		
 
 		// displayRecord( hashTable, 0);
 		// int type;
@@ -60,7 +66,7 @@ int main(int argc, char *argv[])
 		// performSearch( hashTable,type,  string);
 
 	// }
-}
+ }
 
 struct student createStudent(char* record)
 {
@@ -127,6 +133,9 @@ void processInputFile(struct student* hashTable[], char* filename)
 	}
 	else{
    
+	 	int i = 0;
+		printf("Hash Table Log\n");
+		printf("--------------\n");
 		while ( fgets(buffer, INPUT_BUF_SIZE, ptr)){
 			// printf("%s", buffer);
 
@@ -175,7 +184,7 @@ void processSearchFile(struct student* hashTable[], char* filename)
 		while ( fgets(buffer, SEARCH_BUF_SIZE, ptr)){
 			// printf("%s", buffer);
 
-			int searchType;
+			char searchType;
 			char searchString[20];
 	
 			char *s;
@@ -191,7 +200,8 @@ void processSearchFile(struct student* hashTable[], char* filename)
 		
 		strcpy(searchString, s);
 
-		printf("%d %s\n", searchType, searchString);
+		// printf("%d %s\n", searchType, searchString);
+		performSearch(hashTable, &searchType, searchString);
 
 		memset(buffer, '\0', SEARCH_BUF_SIZE);
 			}
@@ -216,17 +226,17 @@ for (int i=0; i<=strlen(record); i++){
 // printf("%lu\n",strlen(record) );
 if(record[0]== '\r'){
 	// printf("Blank record");
-	displayError(12,record);
+	displayError(2,record);
 	
 	return false;
 
 }else if(strlen(record)<37  || strlen(record)>60) {
 	// printf("short record");
-	displayError(13,record);
+	displayError(4,record);
 	return false;
 }else if(count!=4){
 	// printf("corrupt Record");
-	displayError(2,record);
+	displayError(3,record);
 	return false;
 }
 
@@ -234,3 +244,4 @@ if(record[0]== '\r'){
    return true;
 
 }
+

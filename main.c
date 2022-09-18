@@ -14,58 +14,49 @@ bool testRecord(char record[]);
 int main(int argc, char *argv[])
 {
 	
-	// if (argc <  2) /* argc should be 2 for correct execution */
-  //   {
-  //       /* we print argv[0] assuming it is the program name */
-  //       /*printf("usage: %s filename", argv[0]);*/
-  //       /*return 1;*/
-  //       printf("no argument\n");
-	// 				displayError(0, argv[0]);    
-  //       exit(1);
-  //   }
+	if (argc <  3) /* argc should be 3 for correct execution */
+    {
+					displayError(0, argv[0]);    
+        exit(1);
+    }
     
 
-    // else{
+    else{
 
 
 		struct student* hashTable[TABLE_SIZE];
 		initializeTable(hashTable);
 
 
-		// processInputFile(hashTable, argv[1]);
-		processInputFile(hashTable, "file_good.txt");
+		processInputFile(hashTable, argv[1]);
+		// processInputFile(hashTable, "file_good.txt");
 		// processInputFile(hashTable, "file_errors.txt");
 		
 
-
+		printf("\n");
 		displayHashTable(hashTable);
 
-	printf("Hash Table Contents\n");
-	printf("-----------------\n");
-	printf("%s", " ");
-	printf("Index  	Name                  	     Number     Email Address         Credits  GPA\n");
-	printf("-----  	--------------------  	    	     ---------  -----------------  	-------  ---\n");
-		for(int i = 0; i<TABLE_SIZE; i++) {
-		if(hashTable[i] != NULL){
-			displayRecord(hashTable, i);
+	// printf("\n");
+	// printf("Hash Table Contents\n");
+	// printf("-----------------\n");
+	// printf("%s", " ");
+	// printf("Index  	Name                  	     Number     Email Address         Credits  GPA\n");
+	// printf("-----  	--------------------  	    	     ---------  -----------------  	-------  ---\n");
+	// 	for(int i = 0; i<TABLE_SIZE; i++) {
+	// 	if(hashTable[i] != NULL){
+	// 		displayRecord(hashTable, i);
 			
-		}
-		}
+	// 	}
+	// 	}
 
-
-	// displayHashTable(hashTable);
-		// processSearchFile(hashTable, argv[2]);
-		printf("Search Results\n");
-		printf("--------------\n");;
-		processSearchFile(hashTable, "file_search.txt");
 		
-
-		// displayRecord( hashTable, 0);
-		// int type;
-		// char*string;
-		// performSearch( hashTable,type,  string);
-
-	// }
+		printf("\n");
+		printf("Search Results\n");
+		printf("--------------\n");
+		processSearchFile(hashTable, argv[2]);
+		// processSearchFile(hashTable, "file_search.txt");
+		
+	}
  }
 
 struct student createStudent(char* record)
@@ -75,34 +66,17 @@ struct student createStudent(char* record)
 	struct student temp;
 	int x = 0;
 	char *s;
-	// char * name , * number, *email; 
-	// int credits;
-	// double gpa;
-  // temp.name = strtok(record, ',');
-
-	// printf("%s",record);
-	
-		s=strtok(record,",");
+	s=strtok(record,",");
 	
 		strcpy(temp.name, s);
 		s= strtok(NULL, ",");
 		strcpy(temp.number, s);
 		s= strtok(NULL, ",");
 		strcpy(temp.email, s);
-		// temp[x].number = (NULL,',');
-		// temp[x].email= (NULL, ',');
 		s= strtok(NULL, ",");
 		temp.credits=strtol(s,NULL, 10);
 		s= strtok(NULL, ",");
 		temp.gpa=atof(s);
-
-
-	
-	
-	// strcpy(temp.name, s);
-
-
-	
   return temp;
 
 
@@ -111,7 +85,7 @@ struct student createStudent(char* record)
 	// strtol() - converts a string to its integer value
 	// atof() 	- converts a string to its double value
 
-	// char temp;
+
 
 }
 
@@ -138,16 +112,17 @@ void processInputFile(struct student* hashTable[], char* filename)
 		printf("--------------\n");
 		while ( fgets(buffer, INPUT_BUF_SIZE, ptr)){
 			// printf("%s", buffer);
+			char *p = strstr(buffer,"\r");
+			 if(p!=NULL){
+			buffer[(int)(p-buffer)]='\0';
+			}
 
 			if(testRecord( buffer)){
+			 
 			struct student temp = createStudent( buffer);
-			// bool testStudentData(struct student temp)
 			if(testStudentData(temp)){
 				insertStudent(hashTable,&temp );
 			}
-			
-			// void insertStudent(struct student* hashTable[], struct student* temp)
-			// struct student* hashTable[], struct student* temp
 			
       
 			memset(buffer, '\0', INPUT_BUF_SIZE);
@@ -171,45 +146,30 @@ void processSearchFile(struct student* hashTable[], char* filename)
 	int index=0;
 	
 	ptr= fopen(filename,"r");
-	// ptr= fopen(filename,"r");
 	int x = 0 ;
 
 	if(!ptr){
-		// printf("File Not found");
-		// displayError(1, filename);
 		displayError(1, filename);
 	}
 	else{
    
 		while ( fgets(buffer, SEARCH_BUF_SIZE, ptr)){
-			// printf("%s", buffer);
 
 			char searchType;
 			char searchString[20];
 	
 			char *s;
-
-	// printf("%s",record);
 	
 		s=strtok(buffer,",");
 		searchType =strtol(s,NULL, 10);
-
-
-		
 		s= strtok(NULL, ",");
 		
 		strcpy(searchString, s);
-
-		// printf("%d %s\n", searchType, searchString);
 		performSearch(hashTable, &searchType, searchString);
 
 		memset(buffer, '\0', SEARCH_BUF_SIZE);
 			}
-			
-
-
-
-		}
+			}
 		fclose(ptr);
 	}
 
@@ -223,8 +183,8 @@ for (int i=0; i<=strlen(record); i++){
          count = count + 1; 
 } 
 
-// printf("%lu\n",strlen(record) );
-if(record[0]== '\r'){
+
+	if(record[0]== '\0'){
 	// printf("Blank record");
 	displayError(2,record);
 	

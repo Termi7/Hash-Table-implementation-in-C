@@ -43,29 +43,37 @@ int computerHash(char* input)
 
  }
 
-// // computerHash(char* input)
-// int computerHash(char input[])
-// {
-//    int hashValue = 0;
-//    for (int i = 0; i < strlen(input); i++)
-//       hashValue = (3*hashValue + input[i]);
-//    return (int)(hashValue%MOD_SIZE*HASH_TABLE_SEGMENTS);
-// }
 
+void displayHashTable(struct student* hashTable[])
+{
+	printf("Hash Table Contents\n");
+	printf("-----------------\n");
+	printf("%s", " ");
+	printf("Index  	Name                  	     Number     Email Address         Credits  GPA\n");
+	printf("-----  	--------------------  	    	     ---------  -----------------  	-------  ---\n");
+   for(int index = 0; index<TABLE_SIZE; index++) {
+		if(hashTable[index] != NULL){
+
+				 
+				  printf("%4d  		%-20s         %-10s  %-5s       %3d    %.2f\n", index, hashTable[index]->name, hashTable[index]->number, hashTable[index]->email, hashTable[index]->credits, hashTable[index]->gpa);
+	
+      
+   }
+	 }
+	
+}
 
 // void displayHashTable(struct student* hashTable[])
 // {
-// 	printf("Hash Table Contents\n");
-// 	printf("-----------------\n");
-// 	printf("%s", " ");
-// 	printf("Index  	Name                  	     Number     Email Address         Credits  GPA\n");
-// 	printf("-----  	--------------------  	    	     ---------  -----------------  	-------  ---\n");
-//    for(int index = 0; index<TABLE_SIZE; index++) {
-// 		if(hashTable[index] != NULL){
+// 	int i = 0;
+// 	// printf("Hash Table Log\n");
+// 	// 			 printf("--------------\n");
+//    for(i = 0; i<TABLE_SIZE; i++) {
+// 		if(hashTable[i] != NULL){
      
 //         //  printf(" (%d,%d)",hashArray[i]->key,hashArray[i]->data);
 				 
-// 				  printf("%4d  		%-20s         %-10s  %-5s       %3d    %.2f\n", index, hashTable[index]->name, hashTable[index]->number, hashTable[index]->email, hashTable[index]->credits, hashTable[index]->gpa);
+// 				 printf("Added Student to Hash Table: %-20s        Target: %-2d, Actual: %-2d\n", hashTable[i]->name, computerHash(hashTable[i]->name), i);
 	
 //       // else
 //       //    printf(" ~~ ");
@@ -73,25 +81,6 @@ int computerHash(char* input)
 // 	 }
 	
 // }
-
-void displayHashTable(struct student* hashTable[])
-{
-	int i = 0;
-	// printf("Hash Table Log\n");
-	// 			 printf("--------------\n");
-   for(i = 0; i<TABLE_SIZE; i++) {
-		if(hashTable[i] != NULL){
-     
-        //  printf(" (%d,%d)",hashArray[i]->key,hashArray[i]->data);
-				 
-				 printf("Added Student to Hash Table: %-20s        Target: %-2d, Actual: %-2d\n", hashTable[i]->name, computerHash(hashTable[i]->name), i);
-	
-      // else
-      //    printf(" ~~ ");
-   }
-	 }
-	
-}
 
 void displayRecord(struct student* temp[], int index)
 {
@@ -101,7 +90,7 @@ void displayRecord(struct student* temp[], int index)
 	// printf("%s", " ");
 	// printf("Index  Name                  Number     Email Address      Credits  GPA");
 	// printf("-----  --------------------  ---------  -----------------  -------  ---");
-  printf("%4d  		%-20s         %-10s  %-5s       %3d    %.2f\n", index, temp[index]->name, temp[index]->number, temp[index]->email, temp[index]->credits, temp[index]->gpa);
+  printf("       %-20s         %-10s  %-5s       %3d    %.1f\n", temp[index]->name, temp[index]->number, temp[index]->email, temp[index]->credits, temp[index]->gpa);
 	
 }
 
@@ -153,17 +142,9 @@ void insertStudent(struct student* hashTable[], struct student* temp)
 
 		int target=key;
 		
-		// while(hashTable[key]!= NULL && strcmp (hashTable[key]->name, ptrMemory->name)==0){
-		// 	// while(strcmp (hashTable[key].name, temp->name)==0){
-				
-		// 		key = key +1;
-				
-
-    //      key %=TABLE_SIZE;
-		// 	}
+		
 		while(hashTable[key]!= NULL){
 					if(strcmp (hashTable[key]->name, ptrMemory->name)==0){
-			// while(strcmp (hashTable[key].name, temp->name)==0){
 				   displayError(5,hashTable[key]->name);
 				   break;
 					}
@@ -179,38 +160,30 @@ void insertStudent(struct student* hashTable[], struct student* temp)
 			
 			
 			hashTable[key]= ptrMemory;
+			printf("Added Student to Hash Table: %-20s        Target: %-2d, Actual: %-2d\n", hashTable[key]->name, computerHash(hashTable[key]->name), key);
 			
 			// displayRecord(hashTable,key);
 			// displayHashTable(hashTable);
 			
-					
-			
-			
-			
-
-			
-
-
 		}
-
-
-
-    // newNode->next = NULL;
-	
-
-
 
 bool testEmailFormat(struct student temp)
 {
   char string[4];
 	char string1[4];
+	char *ptr= strstr(temp.email,"ufb");
+	char *ptr1 = strstr(temp.email,"edu");
+	int length = strlen(temp.email);
+
   if(temp.email[0]=='u'&&temp.email[9]=='@'&& temp.email[13]=='.'){
-		if((strcmp(strncpy(temp.email, string+10, 3 ),"ufb")) && (strcmp(strncpy(temp.email, string1+14, 3 ),"edu"))){
+		
+			if(ptr!=NULL && ptr1!=NULL){
+			if(((int) (ptr-temp.email))==10 && ((int)(ptr1-temp.email))==14){
          return true;
 		}
-   
+			}
 	}
-  // displayError(8,temp.email);
+ 
 	return false;
 
 
@@ -239,21 +212,16 @@ bool testStudentData(struct student temp)
 	}else if(!testEmailFormat(temp)){
 			displayError(10,temp.email);
       return false;
-			
-
-			
-
+	
 	}else if(temp.credits<0 ||temp.credits>150 ){
-			// displayError(9,temp.credits);
-			// displayError(11,temp.credits);
-			printf("Error: Student Credits Not Less Than 150 (%d)\n", temp.credits);
+			char intString [10];
+			displayError(11,gcvt(temp.credits, 6, intString));
 			return false;
 
 
 	}else if(temp.gpa<0 || temp.gpa>4.0 ){
-			// displayError(10,(int)temp.gpa);
-			// displayError(12,temp.gpa);
-			printf("Error: Student Credits Not Less Than 150 (%f)\n", temp.gpa);
+			char buf[20];
+			displayError(12,gcvt(temp.gpa, 6, buf));
 			return false;
 
 	}

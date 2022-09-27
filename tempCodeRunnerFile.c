@@ -1,1 +1,0 @@
-processSearchFile(hashTable, argv[2]);
